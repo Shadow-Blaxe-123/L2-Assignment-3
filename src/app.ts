@@ -9,17 +9,17 @@ app.get("/", (req, res) => {
 });
 
 app.use((req: Request, res: Response, next: NextFunction) => {
-  const error = new Error(`Not Found: ${req.originalUrl}`);
-  res.status(404);
+  const error = new GenericError(`Not Found: ${req.originalUrl}`, 404);
   next(error);
 });
 
 app.use(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   (err: GenericError, req: Request, res: Response, next: NextFunction) => {
+    const { statusCode, ...rest } = err;
     res
-      .status(err.statusCode)
-      .json({ message: err.message, success: false, error: err });
+      .status(statusCode)
+      .json({ message: err.message, success: false, error: rest });
   }
 );
 
