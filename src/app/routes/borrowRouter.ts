@@ -1,6 +1,6 @@
-import express, { Request, Response } from "express";
+import express, { Request, Response, Router } from "express";
 
-const borrowRouter = express.Router();
+const borrowRouter: Router = express.Router();
 
 borrowRouter.post("/", (req: Request, res: Response) => {
   res.status(200).send("Borrow Route post method");
