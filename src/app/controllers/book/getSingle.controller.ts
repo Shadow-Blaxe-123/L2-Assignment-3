@@ -10,8 +10,12 @@ async function getSingleBook(
 ): Promise<void> {
   try {
     const book = await BookModel.findById(req.params.bookId);
-    const result = customSuccess(true, "Book retrieved successfully", book);
-    res.status(200).json(result);
+    if (book) {
+      const result = customSuccess(true, "Book retrieved successfully", book);
+      res.status(200).json(result);
+    } else {
+      next(new GenericError("Book not found", 404, "BookNotFound"));
+    }
   } catch (error) {
     next(new GenericError("Invalid BookId", 400, "BookIdError", error));
   }
