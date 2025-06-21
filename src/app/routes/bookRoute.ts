@@ -1,9 +1,22 @@
 import express, { Request, Response, Router } from "express";
+import BookModel from "../models/book.model";
+import customSuccess from "../../customSuccess";
+import GenericError from "../../customError";
+// import { MongooseError } from "mongoose";
+
 const bookRouter: Router = express.Router();
 
 // Create books
-bookRouter.post("/", (req: Request, res: Response) => {
-  res.status(200).send("Book Route post method");
+bookRouter.post("/", async (req: Request, res: Response) => {
+  try {
+    const newBook = await BookModel.create(req.body);
+    const checkBook = await BookModel.findById(newBook._id);
+    const result = customSuccess(true, "Book created successfully", checkBook);
+    res.status(201).json(result);
+  } catch (error) {
+    const err: GenericError = new GenericError("Validation failed", 400);
+    res.status(err.statusCode).json(err.errormsg(error));
+  }
 });
 /*
  Add Queries FIlter, sortby & sort, limit

@@ -1,7 +1,7 @@
-import mongoose from "mongoose";
+import mongoose, { Model, Schema } from "mongoose";
 import { Book } from "./interfaces";
 
-const bookSchema = new mongoose.Schema<Book>(
+const bookSchema = new Schema<Book>(
   {
     title: {
       type: String,
@@ -42,5 +42,5 @@ const bookSchema = new mongoose.Schema<Book>(
   { timestamps: true }
 );
 
-const BookModel = mongoose.model<Book>("Book", bookSchema);
+const BookModel: Model<Book> = mongoose.model<Book>("Book", bookSchema);
 export default BookModel;
