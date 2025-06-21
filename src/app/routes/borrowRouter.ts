@@ -1,15 +1,11 @@
-import express, { Request, Response, Router } from "express";
-import BorrowModel from "../models/borrow.model";
+import express, { Router } from "express";
+import createBorrow from "../controllers/borrow/borrow.post.controller";
+import getSummary from "../controllers/borrow/borrow.get.controller";
 
 const borrowRouter: Router = express.Router();
 
-borrowRouter.post("/", async (req: Request, res: Response) => {
-  const newBorrow = BorrowModel.create(req.body);
-  res.status(200).json(newBorrow);
-});
+borrowRouter.post("/", createBorrow);
 
-borrowRouter.get("/", (req: Request, res: Response) => {
-  res.status(200).send("Borrow Route get method");
-});
+borrowRouter.get("/", getSummary);
 
 export default borrowRouter;
