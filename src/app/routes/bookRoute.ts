@@ -100,9 +100,18 @@ bookRouter.patch(
 5. Delete Book
 DELETE /api/books/:bookId
  */
-bookRouter.delete("/:bookId", (req: Request, res: Response) => {
-  res.status(200).send("Book Route delete method");
-});
+bookRouter.delete(
+  "/:bookId",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      await BookModel.findByIdAndDelete(req.params.bookId);
+      const result = customSuccess(true, "Book deleted successfully", null);
+      res.status(200).json(result);
+    } catch (error) {
+      next(new GenericError("Delete failed", 500, "DeleteError", error));
+    }
+  }
+);
 
 //Error
 bookRouter.use((req: Request, res: Response, next: NextFunction) => {
