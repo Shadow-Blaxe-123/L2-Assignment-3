@@ -1,4 +1,4 @@
-import express, { Request, Response, Router } from "express";
+import express, { Request, Response, Router, NextFunction } from "express";
 import BookModel from "../models/book.model";
 import customSuccess from "../../customSuccess";
 import GenericError from "../../customError";
@@ -17,9 +17,13 @@ bookRouter.post("/", async (req: Request, res: Response) => {
     // Making the response.
     const result = customSuccess(true, "Book created successfully", checkBook);
     res.status(201).json(result);
-  } catch (error) {
+  } catch (error: unknown) {
     // Error handling.
-    const err: GenericError = new GenericError("Validation failed", 400);
+    const err: GenericError = new GenericError(
+      "Validation failed",
+      400,
+      "ValidatorError"
+    );
     res.status(err.statusCode).json(err.errormsg(error));
   }
 });
@@ -41,7 +45,11 @@ bookRouter.get("/", async (req: Request, res: Response) => {
     const result = customSuccess(true, "Books found successfully", foundBooks);
     res.status(200).json(result);
   } catch (error) {
-    const err: GenericError = new GenericError("Unknown Query Error", 400);
+    const err: GenericError = new GenericError(
+      "Unknown Query Error",
+      400,
+      "QueryError"
+    );
     res.status(err.statusCode).json(err.errormsg(error));
   }
 });
@@ -68,6 +76,17 @@ DELETE /api/books/:bookId
  */
 bookRouter.delete("/:bookId", (req: Request, res: Response) => {
   res.status(200).send("Book Route delete method");
+});
+
+//Error
+bookRouter.use((req: Request, res: Response, next: NextFunction) => {
+  const error = new GenericError(
+    `Not Found: /api/books${req.path}`,
+    404,
+    "PageNotFoundError"
+  );
+  //   const error = new Error("Not Found: /api/books${req.path}");
+  next(error);
 });
 
 export default bookRouter;

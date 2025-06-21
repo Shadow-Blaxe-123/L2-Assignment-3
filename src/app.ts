@@ -15,17 +15,21 @@ app.use("/api/borrow", borrowRouter);
 
 // 404 Error handler.
 app.use((req: Request, res: Response, next: NextFunction) => {
-  const error = new GenericError(`Not Found: ${req.originalUrl}`, 404);
+  const error = new GenericError(
+    `Not Found: ${req.originalUrl}`,
+    404,
+    "PageNotFoundError"
+  );
   next(error);
 });
 // Custom Error handler middleware.
 app.use(
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   (err: GenericError, req: Request, res: Response, next: NextFunction) => {
     const { statusCode, ...rest } = err;
     res
       .status(statusCode)
       .json({ message: err.message, success: false, error: rest });
+    next();
   }
 );
 
