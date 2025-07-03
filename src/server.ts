@@ -5,13 +5,15 @@ import cors from "cors";
 
 dotenv.config();
 
-cors({
-  origin: [
-    "http://localhost:5173",
-    "live-deploy-url",
-    "http://localhost:5173/#",
-  ],
-});
+// cors({
+//   origin: [
+//     "http://localhost:5173",
+//     "live-deploy-url",
+//     "http://localhost:5173/#",
+//   ],
+// });
+
+server.use(cors());
 
 const { MONGODB_URL, PORT } = process.env;
 
