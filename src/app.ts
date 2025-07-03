@@ -5,7 +5,14 @@ import borrowRouter from "./app/routes/borrowRouter";
 import cors from "cors";
 
 const app: Application = express();
-app.use(cors());
+cors({
+  origin: [
+    "http://localhost:5173",
+    "live-deploy-url",
+    "http://localhost:5173/#",
+  ],
+});
+
 app.use(express.json());
 
 app.get("/", (req: Request, res: Response) => {

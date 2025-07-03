@@ -1,8 +1,17 @@
 import server from "./app";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import cors from "cors";
 
 dotenv.config();
+
+cors({
+  origin: [
+    "http://localhost:5173",
+    "live-deploy-url",
+    "http://localhost:5173/#",
+  ],
+});
 
 const { MONGODB_URL, PORT } = process.env;
 
