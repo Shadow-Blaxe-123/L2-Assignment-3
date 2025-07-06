@@ -17,7 +17,7 @@ async function updateBook(
   }
 
   try {
-    if (req.body.copies < 0) {
+    if (req.body.copies === 0) {
       req.body.available = false;
     }
     const book = await BookModel.findByIdAndUpdate(bookId, req.body, {
