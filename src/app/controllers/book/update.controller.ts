@@ -17,9 +17,6 @@ async function updateBook(
   }
 
   try {
-    if (req.body.copies === 0) {
-      req.body.available = false;
-    }
     const book = await BookModel.findByIdAndUpdate(bookId, req.body, {
       new: true, // return updated doc
       runValidators: true, // enforce schema validation
@@ -37,3 +34,17 @@ async function updateBook(
 }
 
 export default updateBook;
+
+export function setAvailability(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const { copies } = req.body;
+
+  if (typeof copies === "number") {
+    req.body.available = copies > 0;
+  }
+
+  next(); // pass control to controller
+}

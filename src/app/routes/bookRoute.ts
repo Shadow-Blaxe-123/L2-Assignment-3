@@ -1,7 +1,9 @@
 import express, { Request, Response, Router, NextFunction } from "express";
 import GenericError from "../../customError";
 import deleteBook from "../controllers/book/delete.controller";
-import updateBook from "../controllers/book/update.controller";
+import updateBook, {
+  setAvailability,
+} from "../controllers/book/update.controller";
 import getSingleBook from "../controllers/book/getSingle.controller";
 import findBookByID from "../controllers/book/find.controller";
 import createBook from "../controllers/book/create.controller";
@@ -17,7 +19,7 @@ bookRouter.get("/", findBookByID);
 bookRouter.get("/:bookId", getSingleBook);
 
 // Update a book
-bookRouter.patch("/:bookId", updateBook);
+bookRouter.patch("/:bookId", setAvailability, updateBook);
 
 // Delete API
 bookRouter.delete("/:bookId", deleteBook);
