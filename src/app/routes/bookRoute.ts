@@ -17,7 +17,7 @@ bookRouter.get("/", findBookByID);
 bookRouter.get("/:bookId", getSingleBook);
 
 // Update a book
-bookRouter.patch("/:bookId", updateBook);
+bookRouter.put("/:bookId", updateBook);
 
 // Delete API
 bookRouter.delete("/:bookId", deleteBook);

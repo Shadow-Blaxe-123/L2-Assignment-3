@@ -10,7 +10,7 @@ async function findBookByID(
   next: NextFunction
 ): Promise<void> {
   try {
-    const { filter, sortBy, sort, limit } = req.query;
+    const { filter, sortBy, sort, limit, page } = req.query;
     // checking the queries are the correct ones; otherwise giving default values.
     const filterQuery = filter ? { genre: filter } : {};
     const sortQuery: Record<string, SortOrder> = sortBy
@@ -19,9 +19,14 @@ async function findBookByID(
         }
       : {};
     const limitQuery = limit ? Number(limit) : 0;
+
+    const pageNum = Number(page) || 1;
+    const skipNum = (pageNum - 1) * limitQuery;
+
     const foundBooks = await BookModel.find(filterQuery)
       .sort(sortQuery)
-      .limit(limitQuery);
+      .limit(limitQuery)
+      .skip(skipNum);
     const result = customSuccess(true, "Books found successfully", foundBooks);
     res.status(200).json(result);
   } catch (error) {
