@@ -4,6 +4,20 @@ import customSuccess from "../../../customSuccess";
 import BookModel from "../../models/book.model";
 import mongoose from "mongoose";
 
+export function setAvailability(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const { copies } = req.body;
+
+  if (typeof copies === "number") {
+    req.body.available = copies > 0;
+  }
+
+  next(); // pass control to the next middleware
+}
+
 async function updateBook(
   req: Request,
   res: Response,
@@ -34,17 +48,3 @@ async function updateBook(
 }
 
 export default updateBook;
-
-export function setAvailability(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
-  const { copies } = req.body;
-
-  if (typeof copies === "number") {
-    req.body.available = copies > 0;
-  }
-
-  next(); // pass control to controller
-}
