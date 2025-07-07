@@ -10,7 +10,7 @@ app.use(
     origin: [
       "http://localhost:5173",
       "live-deploy-url",
-      "http://localhost:4173",
+      "http://localhost:4173/",
     ],
   })
 );
