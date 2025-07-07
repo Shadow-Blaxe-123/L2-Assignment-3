@@ -5,24 +5,10 @@ import borrowRouter from "./app/routes/borrowRouter";
 import cors from "cors";
 
 const app: Application = express();
-const allowedOrigins = [
-  "http://localhost:5173",
-  "http://localhost:4173",
-  "https://assignment-4-eta-seven.vercel.app",
-];
-
 app.use(
   cors({
-    origin: function (origin, callback) {
-      // allow requests with no origin like mobile apps or curl
-      if (!origin) return callback(null, true);
-
-      if (allowedOrigins.indexOf(origin) !== -1) {
-        callback(null, true);
-      } else {
-        callback(new Error(`Origin ${origin} not allowed by CORS`));
-      }
-    },
+    origin: "https://assignment-4-eta-seven.vercel.app", // ✅ your frontend
+    credentials: true, // Optional: if you use cookies/auth
   })
 );
 
