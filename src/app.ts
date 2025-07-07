@@ -5,15 +5,16 @@ import borrowRouter from "./app/routes/borrowRouter";
 import cors from "cors";
 
 const app: Application = express();
-app.use(
-  cors({
-    origin: [
-      "http://localhost:5173",
-      "live-deploy-url",
-      "http://localhost:4173",
-    ],
-  })
-);
+// app.use(
+//   cors({
+//     origin: [
+//       "http://localhost:5173",
+//       "live-deploy-url",
+//       "http://localhost:4173",
+//     ],
+//   })
+// );
+app.use(cors({ origin: true }));
 
 app.use(express.json());
 
