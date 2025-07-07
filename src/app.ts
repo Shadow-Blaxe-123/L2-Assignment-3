@@ -5,16 +5,26 @@ import borrowRouter from "./app/routes/borrowRouter";
 import cors from "cors";
 
 const app: Application = express();
-// app.use(
-//   cors({
-//     origin: [
-//       "http://localhost:5173",
-//       "live-deploy-url",
-//       "http://localhost:4173",
-//     ],
-//   })
-// );
-app.use(cors({ origin: true }));
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:4173",
+  "https://your-live-deploy-url",
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // allow requests with no origin like mobile apps or curl
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error(`Origin ${origin} not allowed by CORS`));
+      }
+    },
+  })
+);
 
 app.use(express.json());
 
