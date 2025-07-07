@@ -8,7 +8,7 @@ const app: Application = express();
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:4173",
-  "https://your-live-deploy-url",
+  "https://assignment-4-eta-seven.vercel.app",
 ];
 
 app.use(
