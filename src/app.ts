@@ -14,7 +14,6 @@ app.use(
     ],
   })
 );
-console.log("cors");
 
 app.use(express.json());
 
